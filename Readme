@@ -1,0 +1,56 @@
+The mechine v universe
+Creating mechine learning to study the vast universe
+
+Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+Prerequisites
+What you need to install the software and how to install them.
+
+diff
+Copy code
+Example:
+- Python 3.7
+- TensorFlow 2.0
+- NumPy 1.18
+Installing
+Step by step instructions on how to install the software.
+
+yaml
+Copy code
+Example:
+1. Clone the repository:
+    $ git clone https://github.com/username/project-title.git
+2. Install the required packages:
+    $ pip install -r requirements.txt
+Running the tests
+Instructions on how to run the tests to verify that everything is working correctly.
+
+makefile
+Copy code
+Example:
+$ python -m unittest discover tests/
+Deployment
+Instructions on how to deploy the project on a live system.
+
+Built With
+Library 1
+Library 2
+Library 3
+Contributing
+Instructions on how to contribute to the project.
+
+Versioning
+Instructions on how versioning will be handled.
+
+Stickmam
+Author 1
+Author 2
+Author 3
+License
+This project is licensed under the Name of License - see the LICENSE.md file for details.
+
+Acknowledgments
+Chatgpt
+Person or organization 2
+Person or organization 3
