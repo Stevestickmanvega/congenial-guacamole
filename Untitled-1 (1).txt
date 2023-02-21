@@ -1,0 +1,59 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from keras.models import Sequential
+from keras.layers import Dense
+
+# Number of particles
+n = 100
+
+# Initial positions and velocities
+pos = np.random.uniform(-1, 1, size=(n, 2))
+vel = np.random.uniform(-0.5, 0.5, size=(n, 2))
+
+# Time step
+dt = 0.01
+
+# Number of time steps
+steps = 1000
+
+# Arrays to store the positions at each time step
+x = np.zeros((steps, n))
+y = np.zeros((steps, n))
+
+# Loop over time steps
+for i in range(steps):
+    # Loop over particles
+    for j in range(n):
+        # Update position
+        pos[j] += vel[j] * dt
+        
+        # Reflect particle if it goes out of bounds
+        if np.abs(pos[j]).max() > 1:
+            vel[j] = -vel[j]
+    
+    # Store positions
+    x[i] = pos[:, 0]
+    y[i] = pos[:, 1]
+
+# Convert positions and velocities to input format
+inputs = np.concatenate((x[:-1], y[:-1], np.tile(vel, (999, 1))), axis=1)
+outputs = np.concatenate((x[1:], y[1:]), axis=1)
+
+# Create a neural network model
+model = Sequential()
+model.add(Dense(64, activation='relu', input_shape=(inputs.shape[1],)))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(n * 2, activation='linear'))
+
+# Compile the model
+model.compile(loss='mean_squared_error', optimizer='adam')
+
+# Train the model on the inputs and outputs
+model.fit(inputs, outputs, epochs=100, batch_size=32, verbose=0)
+
+# Use the trained model to make predictions for the future positions of the particles
+predictions = model.predict(inputs)
+
+# Plot the final positions
+plt.scatter(x[-1], y[-1])
+plt.show()
