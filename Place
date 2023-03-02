@@ -1,0 +1,28 @@
+README
+Big Bang Simulation with Genetic Algorithm
+This code implements a genetic algorithm to optimize the number of particles in a Big Bang simulation using Pygame and Keras.
+
+Requirements
+The following packages are required to run the code:
+
+Pygame
+NumPy
+TensorFlow
+Usage
+The genetic_algorithm() function is the main entry point for the simulation. It takes a Keras model as an argument and returns the best model found by the genetic algorithm. The fitness() function is called to evaluate the fitness of each individual in the population.
+
+The Pygame window displays a number of randomly placed particles that move randomly around the screen. When a particle enters a certain radius around the center of the screen, it changes color to white. The genetic algorithm seeks to optimize the number of particles in the simulation such that the particles cover the center of the screen as much as possible.
+
+Parameters
+The following parameters can be adjusted to customize the simulation:
+
+WINDOW_WIDTH: The width of the Pygame window.
+WINDOW_HEIGHT: The height of the Pygame window.
+PARTICLE_SIZE: The size of the particles.
+PARTICLE_SPEED: The maximum speed of the particles.
+BIG_BANG_RADIUS: The radius of the region in the center of the screen where particles change color.
+GENERATION_SIZE: The size of the population for each generation in the genetic algorithm.
+NUM_GENERATIONS: The number of generations to run the genetic algorithm for.
+NUM_EPOCHS: The number of epochs to train the Keras model for each individual in the population.
+License
+This code is released under the MIT License
