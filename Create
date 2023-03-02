@@ -1,0 +1,92 @@
+import pygame
+import math
+import random
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from IPython.display import HTML
+from base64 import b64encode
+import os
+
+# Define constants
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600
+BLACK = (30, 30, 30)  # Dark gray
+WHITE = (200, 200, 200)  # Light gray
+PARTICLE_SIZE = 2
+PARTICLE_SPEED = 2
+BIG_BANG_RADIUS = 50
+GENERATION_SIZE = 10
+NUM_GENERATIONS = 100
+
+# Initialize Pygame
+pygame.init()
+
+# Create window
+window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+pygame.display.set_caption("Big Bang Simulation")
+
+# Define particle class
+class Particle:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.color = WHITE
+
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy
+
+    def draw(self, surface):
+        pygame.draw.circle(surface, self.color, (int(self.x), int(self.y)), PARTICLE_SIZE)
+
+# Define update function
+def update(particles):
+    # Move particles randomly
+    for particle in particles:
+        dx = random.uniform(-PARTICLE_SPEED, PARTICLE_SPEED)
+        dy = random.uniform(-PARTICLE_SPEED, PARTICLE_SPEED)
+        particle.move(dx, dy)
+
+    # Calculate distance from center and change color based on distance
+    for particle in particles:
+        distance = math.sqrt((particle.x - WINDOW_WIDTH/2)**2 + (particle.y - WINDOW_HEIGHT/2)**2)
+        if distance < BIG_BANG_RADIUS:
+            r = int(255 * (BIG_BANG_RADIUS - distance) / BIG_BANG_RADIUS)
+            particle.color = (r + 50, r + 50, r + 50)  # Add 50 to r, g, b values to make the particles brighter
+
+# Define draw function
+def draw(particles, surface):
+    surface.fill(BLACK)
+    for particle in particles:
+        particle.draw(surface)
+    pygame.display.update()
+
+# Define fitness function
+def fitness(particles):
+    # Start simulation loop
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        update(particles)
+        draw(particles, window)
+
+    # Quit Pygame
+    pygame.quit()
+
+    # Calculate fitness score
+    x = np.array([particle.x for particle in particles]).reshape(-1, 1)
+    y = np.array([particle.y for particle in particles])
+    model = LinearRegression().fit(x, y)
+    mse = mean_squared_error(y, model.predict(x))
+    return 1 / mse
+
+# Define genetic algorithm function
+def genetic_algorithm():
+    # Initialize population
+    population = np.random.randint(1, 1000, size=GENERATION_SIZE)
+
+    # Start evolution
